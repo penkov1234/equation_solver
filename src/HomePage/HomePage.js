@@ -23,51 +23,27 @@ export default function HomePage() {
     const tileData = [
            {
                img: Slika1,
-              title: 'Image',
-               author: 'author',
-                 cols: 2,
                },
         {
             img: Slika2,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
         {
             img: Slika3,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
         {
             img: Slika4,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
         {
             img: Slika2,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
         {
             img: Slika3,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
         {
             img: Slika2,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
         {
             img: Slika3,
-            title: 'Image',
-            author: 'author',
-            cols: 2,
         },
 
     ];
@@ -144,8 +120,13 @@ export default function HomePage() {
     function clear() {
         ctx.clearRect(0, 0, canvasObj.width, canvasObj.height);
     }
-    function uploadImage() {
-        
+    function imageUploaded(event) {
+        let file = event.target.files[0];
+        let imgFile = {
+            img: URL.createObjectURL(file)
+        }
+
+        setData([imgFile, ...data])
     }
     return (
         <div className={'row'} style={{paddingLeft: '5vh', paddingRight: '5vh'}}>
@@ -168,7 +149,7 @@ export default function HomePage() {
                 <GridList cellHeight={200}  className={classes.gridList} cols={3}>
                     {data.map((data) => (
                         <GridListTile key={data.img} cols={3}>
-                            <img onClick={() => predictOnImage(data.img)} src={data.img} alt={data.title} />
+                            <img onClick={() => predictOnImage(data.img)} src={data.img} />
                         </GridListTile>
                     ))}
                 </GridList>
@@ -178,7 +159,7 @@ export default function HomePage() {
                 <button className={'btn btn-outline-secondary ml-auto'} onClick={predictOnCanvas}>Predict</button>
             </div>
             <div className="col-6 mt-2 d-flex flex-row ml-auto">
-                <button className={'btn btn-outline-secondary'} onClick={uploadImage}>Upload image</button>
+                <input type="file" id="img" name="img" accept="image/*" onChange={(event) => imageUploaded(event)}/>
             </div>
             <div>
                 <Modal
