@@ -3,38 +3,29 @@ import { Modal } from 'react-bootstrap';
 import GridList from '@material-ui/core/GridList';
 import { makeStyles } from '@material-ui/core/styles';
 import GridListTile from '@material-ui/core/GridListTile';
-import Slika1 from '../Images/slika1.png';
-import Slika2 from '../Images/slika2.png';
-import Slika3 from '../Images/slika3.png';
-import Slika4 from '../Images/slika4.png';
+import Slika1 from '../Images/slika1.JPEG';
+import Slika2 from '../Images/slika2.JPEG';
+import Slika3 from '../Images/slika3.JPEG';
+import Slika4 from '../Images/slika4.JPEG';
+import Slika5 from '../Images/slika5.JPEG';
+
+
 import axios from 'axios';
 
 export default function HomePage() {
   const tileData = [
-    {
-      img: Slika1,
-    },
-    {
-      img: Slika2,
-    },
-    {
-      img: Slika3,
-    },
-    {
-      img: Slika4,
-    },
-    {
-      img: Slika2,
-    },
-    {
-      img: Slika3,
-    },
-    {
-      img: Slika2,
-    },
-    {
-      img: Slika3,
-    },
+      {
+          img: Slika1
+      },
+      {
+          img: Slika2
+      }, {
+          img: Slika3
+      }, {
+          img: Slika4
+      }, {
+          img: Slika5
+      },
   ];
   const Latex = require('react-latex');
 
@@ -242,7 +233,6 @@ export default function HomePage() {
           accept="image/*"
           onChange={(event) => imageUploaded(event)}
         />
-        <button onClick={() => {}}>Test</button>
       </div>
       <div>
         <Modal show={open} size="lg" centered>
