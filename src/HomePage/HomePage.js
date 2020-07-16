@@ -29,6 +29,7 @@ import Slika23 from '../Images/slikce48.JPEG';
 import Slika24 from '../Images/slikce54.JPEG';
 import Slika25 from '../Images/slikce56.JPEG';
 import Slika26 from '../Images/slikce57.JPEG';
+import Loader from 'react-loader-spinner';
 
 import axios from 'axios';
 
@@ -126,6 +127,9 @@ export default function HomePage() {
   const [open, setIsOpen] = useState(false);
   const [equation, setEquation] = useState('');
   const [result, setResult] = useState('');
+  const [solutionPods, setSolutionPods] = useState([]);
+  const [solutionStatus, setSolutionStatus] = useState({});
+  const [showPredictLoader, setShowPredictLoader] = useState(false);
 
   useEffect(() => {
     if (!open) {
@@ -145,7 +149,7 @@ export default function HomePage() {
       ctx.fillStyle = 'white';
       ctx.fill();
     }
-  }, [ctx]);
+  }, [canvasObj, ctx]);
 
   // useEffect(() => {
   //     setData(tileData);
@@ -223,8 +227,11 @@ export default function HomePage() {
   }
 
   function predict() {
+    setShowPredictLoader(true);
+    const url = 'http://2.56.212.201:8000/api/mer_predict/';
+    // const url = 'http://172.20.10.3:8000/api/mer_predict/';
     axios
-      .post(`http://2.56.212.201:8000/api/mer_predict/`, {
+      .post(url, {
         image: imageToPredict.replace('data:image/png;base64,', ''),
       })
       .then((res) => {
@@ -232,6 +239,12 @@ export default function HomePage() {
         console.log(res);
         setEquation('Equation: $' + res.data.latex_string + '$');
         setResult(res.data.latex_string);
+        setSolutionPods(res.data.solution_pods);
+        setSolutionStatus(res.data.solution_status);
+        setShowPredictLoader(false);
+      })
+      .catch((e) => {
+        setShowPredictLoader(false);
       });
   }
 
@@ -323,22 +336,70 @@ export default function HomePage() {
       <div>
         <Modal show={open} size="lg" centered>
           <Modal.Header closeButton onClick={() => setIsOpen(false)}>
-            <Modal.Title>Predict</Modal.Title>
+            <Modal.Title>
+              {equation.length > 0 ? 'Prediction' : 'Predict'}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <img
-              src={imageToPredict}
-              alt=""
-              style={{ maxHeight: '40vh', maxWidth: '40vw' }}
-            />
-            <div hidden={false}>
-              <hr />
-
-              <h4>{equation.length > 0 && <Latex>{equation}</Latex>}</h4>
-              <h4>
-                {/* {result.length > 0 && <Latex>Result: ${String(result)}$</Latex>} */}
-              </h4>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+              }}
+            >
+              {showPredictLoader && (
+                <Loader type="Puff" color="#00BFFF" height={100} width={100} />
+              )}
             </div>
+            {(equation.length <= 0 && !showPredictLoader && (
+              <>
+                <img
+                  src={imageToPredict}
+                  alt=""
+                  style={{ maxHeight: '40vh', maxWidth: '40vw' }}
+                />
+                <div hidden={false}>
+                  <hr />
+
+                  <h4>{equation.length > 0 && <Latex>{equation}</Latex>}</h4>
+                  <h4>
+                    {/* {result.length > 0 && <Latex>Result: ${String(result)}$</Latex>} */}
+                  </h4>
+                </div>
+              </>
+            )) ||
+              (!showPredictLoader && (
+                <>
+                  <h4>{equation.length > 0 && <Latex>{equation}</Latex>}</h4>
+                  {(solutionStatus.success && (
+                    <div style={{ marginTop: '20px' }}>
+                      <h2>Solution:</h2>
+                      <div style={{ marginTop: '20px' }}>
+                        {solutionPods.map((sp) => (
+                          <div>
+                            {sp.title}:
+                            <div>
+                              {sp.subpods.map((subp) => (
+                                <div>
+                                  <img src={subp.img.src} alt="prediction" />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )) || (
+                    <div style={{ marginTop: '20px' }}>
+                      <p>{solutionStatus.message}</p>
+                      {solutionStatus.didyoumean && (
+                        <h4>Did you mean: {solutionStatus.didyoumean}</h4>
+                      )}
+                    </div>
+                  )}
+                </>
+              ))}
           </Modal.Body>
           <Modal.Footer>
             <button
@@ -347,12 +408,15 @@ export default function HomePage() {
             >
               Close
             </button>
-            <button
-              className={'btn btn-outline-primary'}
-              onClick={() => predict(imageToPredict)}
-            >
-              Predict
-            </button>
+            {equation.length <= 0 && !showPredictLoader && (
+              <button
+                className={'btn btn-outline-primary'}
+                onClick={() => predict(imageToPredict)}
+                disabled={showPredictLoader}
+              >
+                Predict
+              </button>
+            )}
           </Modal.Footer>
         </Modal>
       </div>
