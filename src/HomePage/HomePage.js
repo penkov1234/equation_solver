@@ -3,29 +3,115 @@ import { Modal } from 'react-bootstrap';
 import GridList from '@material-ui/core/GridList';
 import { makeStyles } from '@material-ui/core/styles';
 import GridListTile from '@material-ui/core/GridListTile';
-import Slika1 from '../Images/slika1.JPEG';
-import Slika2 from '../Images/slika2.JPEG';
-import Slika3 from '../Images/slika3.JPEG';
-import Slika4 from '../Images/slika4.JPEG';
-import Slika5 from '../Images/slika5.JPEG';
+import Slika1 from '../Images/slikce2.png';
+import Slika2 from '../Images/slikce3.png';
+import Slika3 from '../Images/slikce4.png';
+import Slika4 from '../Images/slikce5.png';
+import Slika5 from '../Images/slikce9.png';
+import Slika7 from '../Images/slikce10.png';
+import Slika8 from '../Images/slikce11.png';
+import Slika9 from '../Images/slikce15.png';
+import Slika10 from '../Images/slikce16.png';
+import Slika11 from '../Images/slikce20.png';
+import Slika12 from '../Images/slikce21.png';
+import Slika13 from '../Images/slikce25.png';
+import Slika14 from '../Images/slikce28.png';
+import Slika15 from '../Images/slikce27.png';
+import Slika16 from '../Images/slikce31.png';
+import Slika17 from '../Images/slikce35.png';
+import Slika18 from '../Images/slikce39.png';
+import Slika19 from '../Images/slikce43.png';
 
+import Slika20 from '../Images/slikce41.png';
+import Slika21 from '../Images/slikce45.png';
+import Slika22 from '../Images/slikce46.jpg';
+import Slika23 from '../Images/slikce48.JPEG';
+import Slika24 from '../Images/slikce54.JPEG';
+import Slika25 from '../Images/slikce56.JPEG';
+import Slika26 from '../Images/slikce57.JPEG';
 
 import axios from 'axios';
 
 export default function HomePage() {
   const tileData = [
-      {
-          img: Slika1
-      },
-      {
-          img: Slika2
-      }, {
-          img: Slika3
-      }, {
-          img: Slika4
-      }, {
-          img: Slika5
-      },
+    {
+      img: Slika1,
+    },
+    {
+      img: Slika2,
+    },
+    {
+      img: Slika3,
+    },
+    {
+      img: Slika4,
+    },
+    {
+      img: Slika5,
+    },
+
+    {
+      img: Slika7,
+    },
+    {
+      img: Slika8,
+    },
+    {
+      img: Slika9,
+    },
+    {
+      img: Slika10,
+    },
+    {
+      img: Slika11,
+    },
+    {
+      img: Slika12,
+    },
+    {
+      img: Slika13,
+    },
+    {
+      img: Slika14,
+    },
+    {
+      img: Slika15,
+    },
+    {
+      img: Slika16,
+    },
+
+    {
+      img: Slika17,
+    },
+    {
+      img: Slika18,
+    },
+    {
+      img: Slika19,
+    },
+    {
+      img: Slika20,
+    },
+    {
+      img: Slika21,
+    },
+    {
+      img: Slika22,
+    },
+    {
+      img: Slika23,
+    },
+    {
+      img: Slika24,
+    },
+
+    {
+      img: Slika25,
+    },
+    {
+      img: Slika26,
+    },
   ];
   const Latex = require('react-latex');
 
