@@ -137,19 +137,23 @@ export default function HomePage() {
     }
   }, [open]);
   useEffect(() => {
+    console.log('setting cavnas current');
     setCanvasObj(canvasRef.current);
 
     setCtx(canvasRef.current.getContext('2d'));
   }, [canvasRef]);
 
   useEffect(() => {
+    console.log('in ctzx', ctx);
+
     if (ctx) {
+      ctx.clearRect(0, 0, canvasObj.width, canvasObj.height);
       ctx.beginPath();
       ctx.rect(0, 0, canvasObj.width, canvasObj.height);
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'rgba(240, 240, 240)';
       ctx.fill();
     }
-  }, [canvasObj, ctx]);
+  }, [canvasObj, ctx, open]);
 
   // useEffect(() => {
   //     setData(tileData);
@@ -195,6 +199,7 @@ export default function HomePage() {
   }
 
   function sketch(context, x1, y1, x2, y2) {
+    // console.log('sketching');
     ctx.beginPath();
     ctx.strokeStyle = 'black';
     ctx.lineWidth = 5;
@@ -211,10 +216,11 @@ export default function HomePage() {
     setIsOpen(true);
   }
   function clear() {
+    console.log('clearing');
     ctx.clearRect(0, 0, canvasObj.width, canvasObj.height);
     ctx.beginPath();
     ctx.rect(0, 0, canvasObj.width, canvasObj.height);
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = 'rgba(240, 240, 240)';
     ctx.fill();
   }
   function imageUploaded(event) {
@@ -242,6 +248,7 @@ export default function HomePage() {
         setSolutionPods(res.data.solution_pods);
         setSolutionStatus(res.data.solution_status);
         setShowPredictLoader(false);
+        // clear();
       })
       .catch((e) => {
         setShowPredictLoader(false);
@@ -266,7 +273,7 @@ export default function HomePage() {
         <canvas
           className={''}
           ref={canvasRef}
-          //   style={{ backgroundColor: 'red' }}
+          // style={{ backgroundColor: 'red' }}
           fill={'red'}
           width={document.documentElement.clientWidth * 0.4}
           height={document.documentElement.clientHeight * 0.5}
